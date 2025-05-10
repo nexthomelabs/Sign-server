@@ -44,7 +44,7 @@
     "parse-server": "^7.4.0",
     "parse-server-api-mail-adapter": "^4.1.0",
     "pdf-lib": "^1.17.1",
-    "posthog-node": "^4.13.0",
+    "posthog-node": "^4.17.1",
     "qrcode": "^1.5.4",
     "speakeasy": "^2.0.0",
     "ws": "^8.18.1"
