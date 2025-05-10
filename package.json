@@ -1,0 +1,26 @@
+{
+  "name": "nexthomelabs-sign",
+  "version": "1.0.6",
+  "description": "Free and open source document signing solution by Nexthomelabs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "lint-staged-changes": "lint-staged"
+  },
+  "keywords": [
+    "digital",
+    "signature",
+    "e-signature",
+    "docusign",
+    "electronic",
+    "signature"
+  ],
+  "author": "Nexthomelabs",
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "lint-staged": "^15.1.0",
+    "prettier": "3.1.0"
+  }
+}

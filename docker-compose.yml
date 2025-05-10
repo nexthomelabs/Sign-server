@@ -1,0 +1,55 @@
+services:
+  server:
+    image: nexthomelabs/sign-server:latest
+    container_name: NexthomelabsSignServer-container
+    volumes:
+      - nexthomelabs-files:/usr/src/app/files
+    ports:
+      - "8080:8080"
+    env_file: .env.prod
+    environment:
+      - NODE_ENV=production
+      - SERVER_URL=${HOST_URL:-http://localhost:3001}/api/app
+      - PUBLIC_URL=${HOST_URL:-http://localhost:3001}
+      - SUPABASE_URL=https://johwixbrrrloijuwtnsh.supabase.co
+      - SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvaHdpeGJycnJsb2lqdXd0bnNoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NjMxODA1NSwiZXhwIjoyMDYxODk0MDU1fQ.nSHKF8pAprbna9ZpPR4guaXUi0FTVql0OWA8cr4Heeo
+    networks:
+      - app-network
+  client:
+    image: nexthomelabs/sign:latest
+    container_name: NexthomelabsSign-container
+    depends_on:
+      - server
+    env_file: .env.prod  
+    environment:
+      - REACT_APP_SUPABASE_URL=https://johwixbrrrloijuwtnsh.supabase.co
+      - REACT_APP_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvaHdpeGJycnJsb2lqdXd0bnNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYzMTgwNTUsImV4cCI6MjA2MTg5NDA1NX0.CCT7Dfk58S6vlo-XTaRwjNiYwf6pK1tO2qQogP-xYSk
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+  caddy:
+    image: caddy:latest
+    container_name: caddy-container
+    ports:
+      - "3001:3001"
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - app-network
+    environment:
+      - HOST_URL=${HOST_URL:-localhost:3001}
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  web-root:
+  caddy_data:
+  caddy_config:
+  nexthomelabs-files:
